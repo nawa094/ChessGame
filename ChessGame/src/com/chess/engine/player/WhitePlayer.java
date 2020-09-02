@@ -5,6 +5,7 @@ import com.chess.engine.board.Board;
 import com.chess.engine.board.Move;
 import com.chess.engine.board.Tile;
 import com.chess.engine.pieces.Piece;
+import com.chess.engine.pieces.Rook;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -37,9 +38,12 @@ public class WhitePlayer extends Player {
                     if (Player.calculateAttacksOnTile(61, opponentLegal).isEmpty() &&
                             Player.calculateAttacksOnTile(62, opponentLegal).isEmpty() && rookTile.getPiece().getPieceType().isRook()) {
                         // Then we're all good to castle
-                        kingCastles.add(null);
+                        kingCastles.add(new Move.KingSideCastleMove(this.board, this.playerKing,
+                                62,
+                                (Rook)rookTile.getPiece(),
+                                rookTile.getTileCoordinate(),
+                                61));
                     }
-
                 }
             }
 
@@ -50,8 +54,14 @@ public class WhitePlayer extends Player {
 
                 final Tile rookTile = this.board.getTile(56);
 
-                if (rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove()) {
-                    kingCastles.add(null);
+                if (rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove() && Player.calculateAttacksOnTile(58, opponentLegal).isEmpty() &&
+                        Player.calculateAttacksOnTile(59, opponentLegal).isEmpty() && rookTile.getPiece().getPieceType().isRook()) {
+                    kingCastles.add(new Move.QueenSideCastleMove(this.board,
+                            this.playerKing,
+                            58,
+                            (Rook)rookTile.getPiece(),
+                            rookTile.getTileCoordinate(),
+                            59));
                 }
             }
         }

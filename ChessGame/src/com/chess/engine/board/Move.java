@@ -311,6 +311,5 @@ public abstract class Move {
             return NULL_MOVE;
         }
 
-
     }
 }
